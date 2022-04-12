@@ -62,7 +62,7 @@ const filter_reducer = (state, action) => {
 
     case FILTER_PRODUCTS:
       const { all_products } = state;
-      const { text, category, company, color, price } = state.filters;
+      const { text, category, company, color, price, shipping } = state.filters;
       let tempFilterProducts = [...all_products];
 
       if (text) {
@@ -94,7 +94,28 @@ const filter_reducer = (state, action) => {
         (product) => product.price <= price
       );
 
+      // get products with free shipping
+      if (shipping) {
+        tempFilterProducts = tempFilterProducts.filter((product) => {
+          return product.shipping === true;
+        });
+      }
+
       return { ...state, filtered_products: tempFilterProducts };
+
+    case CLEAR_FILTERS:
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          text: "",
+          category: "all",
+          company: "all",
+          color: "all",
+          price: state.filters.max_price,
+          shipping: false,
+        },
+      };
 
     default:
       throw new Error(`No Matching "${action.type}" - action type`);

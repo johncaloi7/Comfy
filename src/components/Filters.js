@@ -18,6 +18,7 @@ const Filters = () => {
     },
     all_products,
     updateFilters,
+    clearFilters,
   } = useFilterContext();
 
   const categories = getUniqueValues(all_products, "category");
@@ -127,7 +128,22 @@ const Filters = () => {
               value={price}
             />
           </div>
+          {/* shipping */}
+          <div className="form-control shipping">
+            <label htmlFor="shipping">free shipping</label>
+            <input
+              type="checkbox"
+              name="shipping"
+              id="shipping"
+              checked={shipping}
+              onChange={updateFilters}
+            />
+          </div>
         </form>
+        {/* clear search filters */}
+        <button type="button" className="clear-btn" onClick={clearFilters}>
+          clear filters
+        </button>
       </div>
     </Wrapper>
   );
